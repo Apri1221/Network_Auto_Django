@@ -1,0 +1,67 @@
+<!-- Di dalam python, perlu diketahui peran context, content, dan extends -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="mt-5 card-deck" style="margin:0 auto;">
+    <div class="card border-primary mb-3" style="max-width: 18rem;">
+        <div class="card-body text-primary">
+            <h3 class="card-title"> {{ all_devices }} </h3>
+            <div class="mr-3 text-right" style="font-size: 36px;">
+                <i class="fa fa-list fa-lg"></i>
+            </div>
+        </div>
+        <div class="card-footer bg-primary border-primary text-white">Total Devices</div>
+    </div>
+
+    <div class="card border-success mb-3" style="max-width: 18rem;">
+        <div class="card-body text-success">
+            <h3 class="card-title"> {{ cisco_devices }} </h3>
+            <div class="mr-3 text-right" style="font-size: 36px;">
+                <i class="fa fa-hdd-o fa-lg"></i>
+            </div>
+        </div>
+        <div class="card-footer bg-success border-success text-white">Cisco Devices</div>
+    </div>
+
+    <div class="card border-danger mb-3" style="max-width: 18rem;">
+        <div class="card-body text-danger">
+            <h3 class="card-title"> {{ mikrotik_devices }} </h3>
+            <div class="mr-3 text-right" style="font-size: 36px;">
+                <i class="fa fa-server fa-lg"></i>
+            </div>
+        </div>
+        <div class="card-footer bg-danger border-danger text-white">Mikrotik Devices</div>
+    </div>
+</div>
+
+<h3 class="mt-4">Menu Akses Cepat</h3>
+<p>Pilih akses cepat untuk konfigurasi perangkat disini <br>Perangkat yang dikonfigurasikan hanya bermerek dagang Cisco
+</p>
+
+
+<h3 class="mt-4">Riwayat Konfigurasi</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Target Device</th>
+            <th>Action</th>
+            <th>Status</th>
+            <th>Time Done</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for log in last_event %}
+        <!-- variabel log adalah sebuah object, dia nyimpan item di dalamnya sesuai database -->
+
+        <tr>
+            <td></td>
+            <td>{{ log.target }}</td>
+            <td>{{ log.action }}</td>
+            <td>{{ log.status }}</td>
+            <td>{{ log.time }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

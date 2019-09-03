@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2 class="mt-4">Daftar Perangkat Terdaftar</h2>
+    <table class="table">
+        <tr>
+            <th>IP Address</th>
+            <th>Hostname</th>
+            <th>Vendor</th>
+        </tr>
+        {% for device in all_devices %}
+            <tr>
+                <td>{{ device.ip_address }}</td>
+                <td>{{ device.hostname }}</td>
+                <td>{{ device.vendor }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock content %}
