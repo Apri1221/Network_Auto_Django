@@ -5,6 +5,11 @@ import telnetlib
 import time
 from datetime import datetime
 
+def bits_to_mask(n):
+    if n < 0 or n > 32:
+        raise ValueError('Bit count must be between 0 and 32')
+    mask = (~((1 << (32 - n)) - 1)) & 0xFFFFFFFF
+    return '.'.join(map(str, ((mask >> (8 * i)) & 0xFF for i in range(3, -1, -1))))
 
 # Create your views here.
 def beranda(request):
@@ -12,34 +17,58 @@ def beranda(request):
     if request.method == 'POST':
         try:
             selected_menu = request.POST['menu']
-            selected_ip_address = request.POST['ip_address']
-            dev = Device.objects.get(ip_address=selected_ip_address)
+            ip_address = request.POST['ip_address']
+            username = request.POST['username']
+            password = request.POST['password']
+            interface = 'int ' + request.POST['interface']
+            ip_gateway = request.POST['ip_gateway']
+            net_mask = request.POST['net_mask']
+            delete = request.POST.get("checkbox")
+
+            net_mask = bits_to_mask(int(net_mask))
+            eigrp_name = request.POST['eigrp_name']
+            ip_network = request.POST['network']
 
             ssh_client = paramiko.SSHClient()
             ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            ssh_client.connect(hostname='10.10.10.10',username='apriyanto', password='apriyanto')
+            ssh_client.connect(hostname=ip_address, port=22, username=username, password=password)
 
-            selected_gateway = request.POST['interface_gateway']
-            allocation_ip = request.POST['allocation_ip']
-            
-            mask = request.POST['mask']
-            
-            if selected_menu.lower() == 'add_ip_interface':
-                cisco_command = "int {}\n ip add {} {}\n no sh\n".format(selected_gateway, allocation_ip, mask)
-                cisco_command = cisco_command.splitlines()
-
+            if selected_menu == 'set_interface':
+                
+                cmd_ip = 'ip add ' + ip_gateway + ' ' + str(net_mask)
+                if delete == 'yes':
+                    cmd_ip = 'no ' + cmd_ip
+                
+                command = [interface, cmd_ip]
                 conn = ssh_client.invoke_shell()
                 conn.send("conf t\n")
-                for cmd in cisco_command:
+                for cmd in command:
                     conn.send(cmd + '\n')
                     time.sleep(1)
 
-            log = Log(target=selected_ip_address, action="Konfigurasi {}".format(
-                selected_menu), status="Success", time=datetime.now(), messages='Tidak ada Error')
-            log.save()
+                log = Log(target=ip_address, action="Konfigurasi {}".format(
+                    selected_menu), status="Success", time=datetime.now(), messages='Tidak ada Error')
+                log.save()
+            
+
+            elif selected_menu == 'set_routing':
+                
+                cmd_ip = 'router eigrp ' + eigrp_name
+                ip_network = "network {}".format(ip_network) + " {}\n".format(ip_network)
+
+                command = [cmd_ip, 'no auto', ip_network]
+                conn = ssh_client.invoke_shell()
+                conn.send("conf t\n")
+                for cmd in command:
+                    conn.send(cmd + '\n')
+                    time.sleep(1)
+
+                log = Log(target=ip_address, action="Konfigurasi {}".format(
+                    selected_menu), status="Success", time=datetime.now(), messages='Tidak ada Error')
+                log.save()
             
         except Exception as e:
-            log = Log(target=selected_ip_address, action="Konfigurasi {}".format(dev.ip_address), status="Error", time=datetime.now(), messages=e)
+            log = Log(target=ip_address, action="Konfigurasi {}".format(selected_menu), status="Error", time=datetime.now(), messages=e)
             log.save()
 
         return redirect('beranda')
@@ -147,7 +176,7 @@ def cek_konfigurasi(request):
                     for cmd in cisco_command:
                         result.append("Result on {}".format(dev.ip_address))
                         conn.send(cmd + "\n")
-                        time.sleep(1)
+                        time.sleep(2)
                         output = conn.recv(65535)
                         result.append(output.decode())
 

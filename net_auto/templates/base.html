@@ -35,9 +35,138 @@
         .custom-control-label {
             vertical-align: top;
         }
-        
+
         .hidden {
             display: none;
+        }
+
+        .ticket-card {
+            margin-top: 15vh;
+            margin-bottom: 15vh;
+            background: #FFFFFF;
+            border-radius: 4px;
+        }
+
+        /* hanya akan beranimasi di desktop */
+        @media screen and (min-width: 580px) {
+
+            .ticket-card:hover .cover img,
+            .ticket-card.active .cover img {
+                -moz-transform: translate(0, -20px);
+                -o-transform: translate(0, -20px);
+                -ms-transform: translate(0, -20px);
+                -webkit-transform: translate(0, -20px);
+                transform: translate(0, -20px);
+                box-shadow: 0 10px 20px -4px rgba(22, 22, 22, 0.5);
+            }
+        }
+
+        .ticket-card .cover {
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            margin: 15px;
+        }
+
+        .ticket-card .cover img {
+            width: 100%;
+            position: relative;
+            z-index: 2;
+            margin-top: -30px;
+            box-shadow: 0 10px 16px -6px rgba(22, 22, 22, 0.5);
+            border-radius: calc(0.25rem - 1px);
+            -moz-transform: translate(0, 0);
+            -o-transform: translate(0, 0);
+            -ms-transform: translate(0, 0);
+            -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+            -webkit-transition: transform 300ms cubic-bezier(0.34, 2, 0.6, 1), box-shadow 300ms ease, opacity 300ms ease;
+            -moz-transition: transform 300ms cubic-bezier(0.34, 2, 0.6, 1), box-shadow 300ms ease, opacity 300ms ease;
+            -o-transition: transform 300ms cubic-bezier(0.34, 2, 0.6, 1), box-shadow 300ms ease, opacity 300ms ease;
+            -ms-transition: transform 300ms cubic-bezier(0.34, 2, 0.6, 1), box-shadow 300ms ease, opacity 300ms ease;
+            transition: transform 300ms cubic-bezier(0.34, 2, 0.6, 1), box-shadow 300ms ease, opacity 300ms ease;
+        }
+
+        .ticket-card .funding {
+            float: left;
+        }
+
+        .ticket-card .funding .info {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #BBBBBB;
+            margin-bottom: 0;
+        }
+
+        .ticket-card .funding .name {
+            font-weight: 200;
+            font-size: 22px;
+            margin-top: 5px;
+        }
+
+        .ticket-card .ticket {
+            float: left;
+        }
+
+        .ticket-card .price {
+            float: right;
+            text-align: right;
+        }
+
+        .ticket-card .price .from {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .ticket-card .price .value {
+            font-size: 24px;
+            font-weight: 200;
+            color: #FF7433;
+            margin-top: -5px;
+        }
+
+        .ticket-card .body {
+            padding: 5px 30px;
+        }
+
+        .ticket-card .body .info {
+            color: #777777;
+        }
+
+        .ticket-card .body .date {
+            padding-top: 10px;
+        }
+
+        .ticket-card .body .date {
+            float: right;
+            text-align: right;
+            font: 0.9rem sans-serif;
+        }
+
+        .ticket-card .body .progress {
+            height: 10px !important;
+        }
+
+        .ticket-card .body .fa {
+            color: #CCCCCC;
+            margin-right: 5px;
+        }
+
+        .ticket-card .footer .btn {
+            width: 40%;
+            text-transform: uppercase;
+        }
+
+        .ticket-card .footer .btn:focus,
+        .ticket-card .footer .btn:hover,
+        .ticket-card .footer .btn:active {
+            outline: none !important;
+        }
+
+        /* bagian ini mengatur besar gambar diseluruh card */
+        .container [class*=card] img {
+            height: 100px;
+            /* untuk mencrop otomatis gambar gunakan object fit */
+            object-fit: cover;
         }
     </style>
 </head>
@@ -117,7 +246,7 @@
                 else {
                     $(".mikrotiks").hide();
                 }
-                
+
             });
         });
     </script>

@@ -38,6 +38,62 @@
 <p>Pilih akses cepat untuk konfigurasi perangkat disini <br>Perangkat yang dikonfigurasikan hanya bermerek dagang Cisco
 </p>
 
+<div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-6">
+        <div class="ticket-card">
+            <div class="cover">
+                <img src="https://instagram.fsub8-1.fna.fbcdn.net/vp/ded689db18d19ec22fc9d48d8a1a61f4/5DFDC905/t51.2885-15/e35/35540263_472557779839927_4779836878578778112_n.jpg?_nc_ht=instagram.fsub8-1.fna.fbcdn.net&amp;_nc_cat=107"
+                    alt="" />
+            </div>
+            <div class="body">
+                <form method="POST">
+                    <h3>Set Interface</h3>
+                    {% csrf_token %}
+                    <input type="text" name="menu" value="set_interface" style="display: none">
+                    <input type="text" name="ip_address" placeholder="Alamat IP">
+                    <input type="text" name="username" placeholder="username">
+                    <input type="password" name="password" placeholder="Password">
+                    <input type="text" name="interface" placeholder="Interface contoh fa0/1">
+                    <input type="text" name="ip_gateway" placeholder="Alamat IP Interface">
+                    <input type="number" name="net_mask" maxlength="2" min="0" max="32"
+                        placeholder="Prefix Subnet contoh 24">
+
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="hapus_interface" name="checkbox" value="yes">
+                        <label class="custom-control-label" for="hapus_interface">Hapus Interface?</label>
+                    </div>
+                    <button type="submit" class="btn btn-blue" style="margin: 1rem 0;">Proses</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 col-sm-6">
+        <div class="ticket-card">
+            <div class="cover">
+                <img src="https://instagram.fsub8-1.fna.fbcdn.net/vp/ded689db18d19ec22fc9d48d8a1a61f4/5DFDC905/t51.2885-15/e35/35540263_472557779839927_4779836878578778112_n.jpg?_nc_ht=instagram.fsub8-1.fna.fbcdn.net&amp;_nc_cat=107"
+                    alt="" />
+            </div>
+            <div class="body">
+                <form method="POST">
+                    <h3>Set Routing</h3>
+                    {% csrf_token %}
+                    <input type="text" name="menu" value="set_routing" style="display: none">
+                    <input type="text" name="ip_address" placeholder="Alamat IP">
+                    <input type="text" name="username" placeholder="username">
+                    <input type="password" name="password" placeholder="Password">
+
+                    <input type="text" name="eigrp_name" placeholder="Nama EIGRP contoh 10">
+                    <input type="text" name="network" placeholder="Masukkan IP Network" value="0.0.0.0">
+
+
+                    <button type="submit" class="btn btn-blue" style="margin: 1rem 0;">Proses</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <h3 class="mt-4">Riwayat Konfigurasi</h3>
 <table class="table">
